@@ -2,9 +2,10 @@ import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space, Button, Avatar, Menu } from 'antd';
 import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
-
 import icon from '../images/cryptocurrency.png';
 // const {Title} = Typography;
+
+
 const Navbar = () => {
     return (
         <div className='nav-container'>
@@ -13,6 +14,7 @@ const Navbar = () => {
                 <Typography.Title level={2} className='logo'>
                     <Link to='/'>CrytoWorld</Link>
                 </Typography.Title>
+            </div>
                 <Menu theme='dark'>
                     <Menu.Item icon={<HomeOutlined />}>
                         <Link to='/'>Home</Link>
@@ -31,7 +33,6 @@ const Navbar = () => {
                 {/* <Button className='menu-control-container'>
 
             </Button> */}
-            </div>
         </div>
     )
 }

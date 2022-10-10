@@ -10,7 +10,7 @@ const {Title} = Typography
 
 const Homepage = () => {
 
-  const {data, isFetching} = useGetCryptosQuery()
+  const {data, isFetching} = useGetCryptosQuery(10)
   // console.log(data?.data?.stats);;
   const globalStats = data?.data?.stats
   if(isFetching){

@@ -12,7 +12,6 @@ import Homepage from './components/Homepage';
 function App() {
   return (
     <div className="app">
-      hello
       <div className="navbar">
         <Navbar/>
       </div>
