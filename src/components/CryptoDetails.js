@@ -2,30 +2,36 @@ import React, { useState } from 'react';
 import HTMLReactParser from 'html-react-parser';
 import { useParams } from 'react-router-dom';
 import millify from 'millify';
-import { Col, Row, Typography, Select } from 'antd';
+import { Col, Row, Typography, Select, Button } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { useGetCryptoDetailsQuery, useGetCryptosQuery, useGetCryptoHistoryQuery} from '../redux/services/CryptoApi';
-// import Loader from './Loader';
+import { useGetCryptoDetailsQuery, useGetCryptosQuery, useGetCryptoHistoryQuery } from '../redux/services/CryptoApi';
 import LineChart from './LineChart';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const CryptoDetails = () => {
-  const {coinId} = useParams();
+  const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState('7d');
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
-  const { data: coinHistory} = useGetCryptoHistoryQuery({coinId, timeperiod});
+  const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timeperiod });
+  const [chart, setChart] = useState()
+  const [visibility, setVisibility] = useState(true)
+  const [color, setColor] = useState({});
 
-  // console.log('history', coinHistory)
-
-  console.log('chljaa sin', data?.data?.coin.price)
-  // const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timeperiod });
   const cryptoDetails = data?.data?.coin;
   if (isFetching) return 'loading.........';
 
 
   const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
+  const chartType = ['line', 'bar']
+  const scale = ['linear', 'log']
+  const addmetrics = ['Metric', 'Formula', 'Price']
+
+  const toggleVisibility = () => {
+    console.log(visibility)
+    setVisibility(!visibility)
+  }
 
   const stats = [
     { title: 'Price to USD', value: `$ ${cryptoDetails?.price && millify(cryptoDetails?.price)}`, icon: <DollarCircleOutlined /> },
@@ -55,7 +61,26 @@ const CryptoDetails = () => {
       <Select defaultValue="7d" className="select-timeperiod" placeholder="Select Timeperiod" onChange={(value) => setTimeperiod(value)}>
         {time.map((date) => <Option key={date}>{date}</Option>)}
       </Select>
-      <LineChart coinHistory={coinHistory} currentPrice={millify(cryptoDetails?.price)} coinName={cryptoDetails?.name} />
+      <Select defaultValue="Chart Style" className="select-timeperiod" placeholder="Select Chart type" onChange={(value) => setChart(value)}>
+        {chartType.map((chart) => <Option key={chart}>{chart}</Option>)}
+      </Select>
+      <Select defaultValue="Scale" className="select-timeperiod" onChange={(value) => console.log(value)}>
+        {scale.map((scale) => <Option key={scale}>{scale}</Option>)}
+      </Select>
+      <Select defaultValue="Color" className="select-timeperiod" onChange={(value) => console.log(value)}>
+        {scale.map((scale) => <Option key={scale}>{scale}</Option>)}
+      </Select>
+      <Select defaultValue="Y axis" className="select-timeperiod" onChange={(value) => console.log(value)}>
+        {<Option key='y-axis'>y-axis</Option>}
+      </Select>
+      <Button className="select-timeperiod" onClick={(prev) => toggleVisibility(prev)}>Visibility</Button>
+      <Select defaultValue="Add" className="select-timeperiod" onChange={(value) => console.log(value)}>
+        {addmetrics.map((val) => <Option key={val}>{val}</Option>)}
+      </Select>
+
+
+
+      {visibility ? <LineChart coinHistory={coinHistory} currentPrice={cryptoDetails?.price} coinName={cryptoDetails?.name} charts={chart} /> : <LineChart coinName={cryptoDetails?.name} charts={chart} />}
       <Col className="stats-container">
         <Col className="coin-value-statistics">
           <Col className="coin-value-statistics-heading">

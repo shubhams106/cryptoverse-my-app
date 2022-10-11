@@ -1,11 +1,12 @@
 //  Change the coin price history endpoint to the following - `coin/${coinId}/history?timeperiod=${timeperiod}`
-import React from 'react';
-import { Line } from 'react-chartjs-2';
+import React, { useState } from 'react';
+import { Bar, Line } from 'react-chartjs-2';
 import { Col, Row, Typography } from 'antd';
+
 
 const { Title } = Typography;
 
-const LineChart = ({ coinHistory, currentPrice, coinName }) => {
+const LineChart = ({ coinHistory, currentPrice, coinName, charts }) => {
   const coinPrice = [];
   const coinTimestamp = [];
 
@@ -35,12 +36,13 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
         {
           ticks: {
             beginAtZero: true,
+            // type: 'logarithmic'
           },
         },
       ],
     },
   };
-
+  console.log('line chart m console charts', charts)
   return (
     <>
       <Row className="chart-header">
@@ -50,7 +52,9 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
           <Title level={5} className="current-price">Current {coinName} Price: $ {currentPrice}</Title>
         </Col>
       </Row>
-      <Line data={data} options={options} />
+
+      {charts === 'bar' ? <Line data={data} options={options} /> : <Bar data={data} options={options} />}
+
     </>
   );
 };
