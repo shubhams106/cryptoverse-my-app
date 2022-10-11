@@ -1,5 +1,5 @@
 //  Change the coin price history endpoint to the following - `coin/${coinId}/history?timeperiod=${timeperiod}`
-import React, { useState } from 'react';
+import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Col, Row, Typography } from 'antd';
 

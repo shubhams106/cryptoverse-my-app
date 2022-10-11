@@ -1,6 +1,6 @@
 import React from 'react'
-import { Layout, Typography, Space, Row, Col, Statistic } from 'antd';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Typography, Row, Col, Statistic } from 'antd';
+import {Link } from 'react-router-dom';
 import millify from 'millify';
 import {useGetCryptosQuery} from '../redux/services/CryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';

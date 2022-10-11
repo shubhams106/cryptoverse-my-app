@@ -1,7 +1,7 @@
 import React from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
-import { Layout, Typography, Space, Button, Avatar, Menu } from 'antd';
-import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { Typography, Avatar, Menu } from 'antd';
+import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined} from '@ant-design/icons';
 import icon from '../images/cryptocurrency.png';
 // const {Title} = Typography;
 

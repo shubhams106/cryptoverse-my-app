@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { Layout, Typography, Space, Row, Col, Statistic, Card, Input } from 'antd';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Row, Col, Card, Input } from 'antd';
+import { Link } from 'react-router-dom';
 import millify from 'millify';
 import { useGetCryptosQuery } from '../redux/services/CryptoApi';
 

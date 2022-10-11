@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import millify from 'millify';
 import { Col, Row, Typography, Select, Button } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { useGetCryptoDetailsQuery, useGetCryptosQuery, useGetCryptoHistoryQuery } from '../redux/services/CryptoApi';
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../redux/services/CryptoApi';
 import LineChart from './LineChart';
 
 const { Title, Text } = Typography;
@@ -17,7 +17,7 @@ const CryptoDetails = () => {
   const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timeperiod });
   const [chart, setChart] = useState()
   const [visibility, setVisibility] = useState(true)
-  const [color, setColor] = useState({});
+  // const [color, setColor] = useState({});
 
   const cryptoDetails = data?.data?.coin;
   if (isFetching) return 'loading.........';
