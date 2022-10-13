@@ -6,6 +6,7 @@ import {useGetCryptosQuery} from '../redux/services/CryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';
 import News from './News';
 
+
 const {Title} = Typography
 
 const Homepage = () => {

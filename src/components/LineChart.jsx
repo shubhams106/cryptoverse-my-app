@@ -1,48 +1,62 @@
 //  Change the coin price history endpoint to the following - `coin/${coinId}/history?timeperiod=${timeperiod}`
 import React from 'react';
-import { Bar, Line } from 'react-chartjs-2';
 import { Col, Row, Typography } from 'antd';
-
-
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts';
 const { Title } = Typography;
 
+
 const LineChart = ({ coinHistory, currentPrice, coinName, charts }) => {
-  const coinPrice = [];
-  const coinTimestamp = [];
+  // const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
+
+  // const coinPrice = [];
+  const allData = [];
 
   for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
-    coinPrice.push(coinHistory?.data?.history[i].price);
+    allData.push(Number(coinHistory?.data?.history[i].price), coinHistory?.data?.history[i].timestamp);
   }
 
-  for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
-    coinTimestamp.push(new Date(coinHistory?.data?.history[i].timestamp).toLocaleDateString());
-  }
-  const data = {
-    labels: coinTimestamp,
-    datasets: [
-      {
-        label: 'Price In USD',
-        data: coinPrice,
-        fill: false,
-        backgroundColor: '#0071bd',
-        borderColor: '#0071bd',
-      },
-    ],
-  };
 
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-            // type: 'logarithmic'
-          },
-        },
-      ],
+
+  function sliceIntoChunks(allData, chunkSize) {
+    const res = [];
+    for (let i = 0; i < allData.length; i += chunkSize) {
+      const chunk = allData.slice(i, i + chunkSize);
+      res.push(chunk);
+    }
+    return res;
+  }
+
+  // console.log('hhh',sliceIntoChunks(coinTimestamp, 2));
+  const value = sliceIntoChunks(allData, 2);
+
+  // console.log('abc', abc);
+
+
+
+  const option = {
+    title: {
+      text: 'Crypto comparison'
     },
-  };
-  console.log('line chart m console charts', charts)
+    rangeSelector: {
+      selected: 1
+    },
+    series: [
+      {
+        data: value,
+        name: coinName,
+        tooltip: {
+          valueDecimals: 2,
+        },
+      }
+    ],
+    xAxis: {
+      categories: [],
+    },
+  }
+
+
+
   return (
     <>
       <Row className="chart-header">
@@ -53,7 +67,10 @@ const LineChart = ({ coinHistory, currentPrice, coinName, charts }) => {
         </Col>
       </Row>
 
-      {charts === 'bar' ? <Line data={data} options={options} /> : <Bar data={data} options={options} />}
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={option}
+      />
 
     </>
   );

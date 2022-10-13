@@ -6,36 +6,36 @@ import millify from 'millify';
 import { useGetCryptosQuery } from '../redux/services/CryptoApi';
 
 
-const Cryptocurrencies = ({simplified}) => {
+const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
-  const {data: cryptosList, isFetching} = useGetCryptosQuery(count);
+  const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([])
   const [searchterm, setSearchterm] = useState('')
 
   useEffect(() => {
-    const filteredCryptos = cryptosList?.data?.coins.filter((coin) => coin.name.toLowerCase().includes(searchterm.toLowerCase()))
-      setCryptos(filteredCryptos)
-    
-  }, [searchterm, cryptos])
+    const filtered = cryptosList?.data?.coins.filter((coin) => coin.name.toLowerCase().includes(searchterm.toLowerCase()))
+    setCryptos(filtered)
+  // console.log('search word', filtered);
 
-  
-  if(isFetching) return 'loading................'
+  }, [searchterm, cryptosList])
 
+
+  if (isFetching) return 'loading................'
   return (
     <div>
-      {!simplified && 
-      <div className='search-crypto'>
-        <Input placeholder='search cryptocurrencies' onChange={(e) => setSearchterm(e.target.value)} />
-      </div>
-      }   
+      {!simplified &&
+        <div className='search-crypto'>
+          <Input placeholder='search cryptocurrencies' onChange={(e) => setSearchterm(e.target.value)} />
+        </div>
+      }
       <Row gutter={[32, 32]} className='crypto-card-container'>
         {cryptos?.map((currency) => (
           <Col xs={24} sm={12} lg={6} className='crypto-card' key={currency.uuid}>
             <Link to={`/crypto/${currency.uuid}`}>
-              <Card 
-              title={`${currency.rank}.${currency.name}`}
-                extra={<img className='crypto-image' src={currency.iconUrl} alt='' />  }
-              hoverable
+              <Card
+                title={`${currency.rank}.${currency.name}`}
+                extra={<img className='crypto-image' src={currency.iconUrl} alt='' />}
+                hoverable
               >
                 <p>Price: {millify(currency.price)}</p>
                 <p>Market Cap: {millify(currency.marketCap)}</p>

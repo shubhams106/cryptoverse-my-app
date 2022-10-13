@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import millify from 'millify';
 import { Col, Row, Typography, Select, Button } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../redux/services/CryptoApi';
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery, useGetCryptosQuery } from '../redux/services/CryptoApi';
 import LineChart from './LineChart';
 
 const { Title, Text } = Typography;
@@ -15,18 +15,31 @@ const CryptoDetails = () => {
   const [timeperiod, setTimeperiod] = useState('7d');
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
   const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timeperiod });
+  const { data: all } = useGetCryptosQuery(50);
+
   const [chart, setChart] = useState()
   const [visibility, setVisibility] = useState(true)
+  const [name, setName] = useState('');
+
   // const [color, setColor] = useState({});
+  const names = all?.data?.coins
 
-  const cryptoDetails = data?.data?.coin;
+  {/*
+  function success(data) {
+  const bothName = name
+  seriesOptions[i] = {
+    name: name,
+    data: data,
+  };
+
+*/}
+
+  const cryptoDetails = data?.data?.coin
   if (isFetching) return 'loading.........';
-
-
   const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
   const chartType = ['line', 'bar']
   const scale = ['linear', 'log']
-  const addmetrics = ['Metric', 'Formula', 'Price']
+  // const addmetrics = ['Metric', 'Formula', 'Price']
 
   const toggleVisibility = () => {
     console.log(visibility)
@@ -74,8 +87,8 @@ const CryptoDetails = () => {
         {<Option key='y-axis'>y-axis</Option>}
       </Select>
       <Button className="select-timeperiod" onClick={(prev) => toggleVisibility(prev)}>Visibility</Button>
-      <Select defaultValue="Add" className="select-timeperiod" onChange={(value) => console.log(value)}>
-        {addmetrics.map((val) => <Option key={val}>{val}</Option>)}
+      <Select defaultValue="Add" className="select-timeperiod" onChange={(value) => setName(value)}>
+        {names.map((coin) => <Option key={coin.name}>{coin.name}</Option>)}
       </Select>
 
 
